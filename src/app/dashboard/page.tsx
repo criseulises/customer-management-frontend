@@ -68,14 +68,22 @@ export default function AdminDashboard() {
         const customerStatsData = await customerService.getCustomerStatistics();
         console.log('Estadísticas de clientes cargadas:', customerStatsData);
         setCustomerStats(customerStatsData);
-      } catch (customerError: any) {
+      } catch (customerError: unknown) {
         console.error('Error cargando estadísticas de clientes:', customerError);
-        setError(`Error cargando estadísticas: ${customerError.message}`);
+        if (customerError instanceof Error) {
+          setError(`Error cargando estadísticas: ${customerError.message}`);
+        } else {
+          setError('Error cargando estadísticas');
+        }
       }
       
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error general cargando estadísticas:', err);
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Error general cargando estadísticas');
+      }
     } finally {
       setLoading(false);
     }

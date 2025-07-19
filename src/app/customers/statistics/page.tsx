@@ -95,8 +95,12 @@ export default function CustomerStatisticsPage() {
         addressStats
       });
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado al cargar las estadísticas.');
+      }
     } finally {
       setLoading(false);
     }

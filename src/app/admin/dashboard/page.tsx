@@ -69,19 +69,27 @@ export default function AdminDashboard() {
         console.log('Cargando estadísticas de usuarios...');
         userStatsData = await userService.getUserStatistics();
         console.log('Estadísticas de usuarios cargadas:', userStatsData);
-      } catch (userError: any) {
+      } catch (userError: unknown) {
         console.error('Error cargando estadísticas de usuarios:', userError);
-        setError(`Error en estadísticas de usuarios: ${userError.message}`);
+        if (userError instanceof Error) {
+          setError(`Error en estadísticas de usuarios: ${userError.message}`);
+        } else {
+          setError('Error en estadísticas de usuarios: Error desconocido');
+        }
       }
       
       try {
         console.log('Cargando estadísticas de clientes...');
         customerStatsData = await customerService.getCustomerStatistics();
         console.log('Estadísticas de clientes cargadas:', customerStatsData);
-      } catch (customerError: any) {
+      } catch (customerError: unknown) {
         console.error('Error cargando estadísticas de clientes:', customerError);
         if (!error) { // Solo set si no hay error previo
-          setError(`Error en estadísticas de clientes: ${customerError.message}`);
+          if (customerError instanceof Error) {
+            setError(`Error en estadísticas de clientes: ${customerError.message}`);
+          } else {
+            setError('Error en estadísticas de clientes: Error desconocido');
+          }
         }
       }
       
@@ -89,9 +97,13 @@ export default function AdminDashboard() {
       setCustomerStats(customerStatsData);
       setStatsLoaded(true);
       
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error general cargando estadísticas:', err);
-      setError(err.message);
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Error desconocido al cargar estadísticas');
+      }
     } finally {
       setLoading(false);
     }

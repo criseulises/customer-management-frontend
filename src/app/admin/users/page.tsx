@@ -143,8 +143,12 @@ export default function CustomersPage() {
         data = await customerService.getCustomers(currentPage, 20, 'createdAt');
         setCustomers(data);
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado.');
+      }
     } finally {
       setLoading(false);
     }
@@ -176,8 +180,12 @@ export default function CustomersPage() {
     try {
       await customerService.deactivateCustomer(customerId);
       await loadCustomers();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado.');
+      }
     }
   };
 
@@ -185,8 +193,12 @@ export default function CustomersPage() {
     try {
       await customerService.activateCustomer(customerId);
       await loadCustomers();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado.');
+      }
     }
   };
 
@@ -235,8 +247,12 @@ export default function CustomersPage() {
       setShowCreateModal(false);
       resetCreateForm();
       await loadCustomers();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado.');
+      }
     } finally {
       setFormLoading(false);
     }
@@ -262,7 +278,7 @@ export default function CustomersPage() {
     }));
   };
 
-  const updateCreateAddress = (index: number, field: keyof AddressForm, value: any) => {
+  const updateCreateAddress = (index: number, field: keyof AddressForm, value: string | boolean) => {
     setCreateForm(prev => ({
       ...prev,
       addresses: prev.addresses.map((addr, i) => 
@@ -331,8 +347,12 @@ export default function CustomersPage() {
       setShowEditModal(false);
       setSelectedCustomer(null);
       await loadCustomers();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado.');
+      }
     } finally {
       setFormLoading(false);
     }
@@ -358,7 +378,7 @@ export default function CustomersPage() {
     }));
   };
 
-  const updateEditAddress = (index: number, field: keyof AddressForm, value: any) => {
+  const updateEditAddress = (index: number, field: keyof AddressForm, value: string | boolean) => {
     setEditForm(prev => ({
       ...prev,
       addresses: prev.addresses.map((addr, i) => 
@@ -478,7 +498,7 @@ export default function CustomersPage() {
               {isSearching && (
                 <div className="mt-2 flex items-center justify-between">
                   <p className="text-sm text-gray-600">
-                    Buscando: "<strong>{searchTerm}</strong>"
+                    Buscando: &quot;<strong>{searchTerm}</strong>&quot;
                   </p>
                   <button
                     onClick={handleClearSearch}
@@ -842,7 +862,7 @@ export default function CustomersPage() {
                     <select
                       required
                       value={createForm.documentType}
-                      onChange={(e) => setCreateForm(prev => ({ ...prev, documentType: e.target.value as any }))}
+                      onChange={(e) => setCreateForm(prev => ({ ...prev, documentType: e.target.value as 'CEDULA' | 'PASSPORT' | 'RNC' }))}
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500"
                     >
                       <option value="CEDULA">Cédula</option>
@@ -1062,7 +1082,7 @@ export default function CustomersPage() {
                     <select
                       required
                       value={editForm.documentType}
-                      onChange={(e) => setEditForm(prev => ({ ...prev, documentType: e.target.value as any }))}
+                      onChange={(e) => setEditForm(prev => ({ ...prev, documentType: e.target.value as 'CEDULA' | 'PASSPORT' | 'RNC' }))}
                       className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500"
                     >
                       <option value="CEDULA">Cédula</option>

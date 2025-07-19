@@ -139,14 +139,22 @@ export default function AdminSettingsPage() {
       
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
-    } catch (err: any) {
-      setError(err.message || 'Error al guardar configuraciones');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Error al guardar configuraciones');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const updateSetting = (section: keyof SystemSettings, key: string, value: any) => {
+  function updateSetting<K extends keyof SystemSettings, F extends keyof SystemSettings[K]>(
+    section: K,
+    key: F,
+    value: SystemSettings[K][F]
+  ) {
     setSettings(prev => ({
       ...prev,
       [section]: {
@@ -154,7 +162,7 @@ export default function AdminSettingsPage() {
         [key]: value
       }
     }));
-  };
+  }
 
   const tabs = [
     { id: 'general', name: 'General', icon: Globe },
