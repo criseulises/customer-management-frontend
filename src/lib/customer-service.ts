@@ -99,24 +99,18 @@ api.interceptors.response.use(
 );
 
 export const customerService = {
-  // Get customer statistics
-async getCustomerStatistics(): Promise<CustomerStatistics> {
-  try {
-    const response = await api.get<ApiResponse<CustomerStatistics>>('/api/customers/statistics');
-    return response.data.data;
-  } catch (error: any) {
-    const message = error.response?.data?.message || 'Error al obtener estadísticas';
-    throw new Error(message);
-  }
-},
 
 // Agregar también el método updateCustomer que falta:
-async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
+async updateCustomer(customerId: number, customerData: Partial<CreateCustomerRequest>): Promise<Customer> {
   try {
     const response = await api.put<ApiResponse<Customer>>(`/api/customers/${customerId}`, customerData);
     return response.data.data;
-  } catch (error: any) {
-    const message = error.response?.data?.message || 'Error al actualizar cliente';
+  } catch (error: unknown) {
+    let message = 'Error al actualizar cliente';
+    if (error && typeof error === 'object' && 'response' in error && error.response && typeof error.response === 'object' && 'data' in error.response && error.response.data && typeof error.response.data === 'object' && 'message' in error.response.data) {
+      // @ts-expect-error: dynamic access
+      message = error.response.data.message || message;
+    }
     throw new Error(message);
   }
 },
@@ -126,8 +120,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
     try {
       const response = await api.post<ApiResponse<Customer>>('/api/customers', customerData);
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al crear cliente';
+    } catch (error: unknown) {
+      let message = 'Error al crear cliente';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },
@@ -139,8 +147,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
         params: { page, size, sort }
       });
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener clientes';
+    } catch (error: unknown) {
+      let message = 'Error al obtener clientes';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },
@@ -150,8 +172,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
     try {
       const response = await api.get<ApiResponse<Customer>>(`/api/customers/${customerId}`);
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener cliente';
+    } catch (error: unknown) {
+      let message = 'Error al obtener cliente';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },
@@ -163,8 +199,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
         params: { term, page, size }
       });
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error en la búsqueda';
+    } catch (error: unknown) {
+      let message = 'Error en la búsqueda';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },
@@ -173,8 +223,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
   async deactivateCustomer(customerId: number): Promise<void> {
     try {
       await api.delete(`/api/customers/${customerId}`);
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al desactivar cliente';
+    } catch (error: unknown) {
+      let message = 'Error al desactivar cliente';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },
@@ -183,8 +247,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
   async activateCustomer(customerId: number): Promise<void> {
     try {
       await api.post(`/api/customers/${customerId}/activate`);
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al activar cliente';
+    } catch (error: unknown) {
+      let message = 'Error al activar cliente';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },
@@ -194,9 +272,12 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
     try {
       const response = await api.get<ApiResponse<CustomerStatistics>>('/api/customers/statistics');
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener estadísticas';
-      throw new Error(message);
+    } catch (error: unknown) {
+      const message =
+        error && typeof error === 'object' && 'response' in error && error.response && typeof error.response === 'object' && 'data' in error.response && error.response.data && typeof error.response.data === 'object' && 'message' in error.response.data
+          ? error.response.data.message || 'Error al obtener estadísticas'
+          : 'Error al obtener estadísticas';
+      throw new Error(typeof message === 'string' ? message : 'Error al obtener estadísticas');
     }
   },
 
@@ -207,8 +288,22 @@ async updateCustomer(customerId: number, customerData: any): Promise<Customer> {
         params: { page, size }
       });
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener clientes por usuario';
+    } catch (error: unknown) {
+      let message = 'Error al obtener clientes por usuario';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        // @ts-expect-error: dynamic access
+        message = error.response.data.message || message;
+      }
       throw new Error(message);
     }
   },

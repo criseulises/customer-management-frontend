@@ -93,8 +93,12 @@ export default function EditUserModal({ isOpen, user, onClose, onSuccess }: Edit
       await userService.updateUser(user.id, updateData);
       handleClose();
       onSuccess();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado');
+      }
     } finally {
       setIsLoading(false);
     }

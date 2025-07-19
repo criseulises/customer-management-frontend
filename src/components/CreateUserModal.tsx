@@ -66,8 +66,12 @@ export default function CreateUserModal({ isOpen, onClose, onSuccess }: CreateUs
       await userService.createUser(createData);
       handleClose();
       onSuccess();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Ocurrió un error inesperado');
+      }
     } finally {
       setIsLoading(false);
     }

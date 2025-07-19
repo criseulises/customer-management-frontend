@@ -100,8 +100,11 @@ export const userService = {
       
       const response = await api.post<ApiResponse<User>>('/api/admin/users', userData);
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al crear usuario';
+    } catch (error: unknown) {
+      let message = 'Error al crear usuario';
+      if (error && typeof error === 'object' && 'response' in error && error.response && typeof error.response === 'object' && 'data' in error.response && error.response.data && typeof error.response.data === 'object' && 'message' in error.response.data) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -113,8 +116,21 @@ export const userService = {
         params: { page, size, sort }
       });
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener usuarios';
+    } catch (error: unknown) {
+      let message = 'Error al obtener usuarios';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -124,8 +140,21 @@ export const userService = {
     try {
       const response = await api.get<ApiResponse<User[]>>('/api/admin/users/admins');
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener administradores';
+    } catch (error: unknown) {
+      let message = 'Error al obtener administradores';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -135,8 +164,21 @@ export const userService = {
     try {
       const response = await api.get<ApiResponse<User>>(`/api/admin/users/${userId}`);
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener usuario';
+    } catch (error: unknown) {
+      let message = 'Error al obtener usuario';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -146,8 +188,21 @@ export const userService = {
     try {
       const response = await api.put<ApiResponse<User>>(`/api/admin/users/${userId}`, userData);
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al actualizar usuario';
+    } catch (error: unknown) {
+      let message = 'Error al actualizar usuario';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -159,8 +214,21 @@ export const userService = {
         params: { term }
       });
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error en la búsqueda';
+    } catch (error: unknown) {
+      let message = 'Error en la búsqueda';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -169,8 +237,21 @@ export const userService = {
   async deactivateUser(userId: number): Promise<void> {
     try {
       await api.delete(`/api/admin/users/${userId}`);
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al desactivar usuario';
+    } catch (error: unknown) {
+      let message = 'Error al desactivar usuario';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -179,8 +260,21 @@ export const userService = {
   async activateUser(userId: number): Promise<void> {
     try {
       await api.post(`/api/admin/users/${userId}/activate`);
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al activar usuario';
+    } catch (error: unknown) {
+      let message = 'Error al activar usuario';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
@@ -190,8 +284,21 @@ export const userService = {
     try {
       const response = await api.get<ApiResponse<UserStatistics>>('/api/admin/users/statistics');
       return response.data.data;
-    } catch (error: any) {
-      const message = error.response?.data?.message || 'Error al obtener estadísticas';
+    } catch (error: unknown) {
+      let message = 'Error al obtener estadísticas';
+      if (
+        error &&
+        typeof error === 'object' &&
+        'response' in error &&
+        error.response &&
+        typeof error.response === 'object' &&
+        'data' in error.response &&
+        error.response.data &&
+        typeof error.response.data === 'object' &&
+        'message' in error.response.data
+      ) {
+        message = (error.response.data as { message?: string }).message || message;
+      }
       throw new Error(message);
     }
   },
