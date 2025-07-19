@@ -1,3 +1,4 @@
+
 'use client';
 export const dynamic = 'force-dynamic';
 
@@ -69,7 +70,8 @@ interface UpdateCustomerRequest {
   }[];
 }
 
-export default function CustomersPage() {
+// Componente interno que usa useSearchParams
+function CustomersPageContent() {
   const [user, setUser] = useState<User | null>(null);
   const [customers, setCustomers] = useState<PaginatedResponse<Customer> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -500,7 +502,6 @@ export default function CustomersPage() {
   }
 
   return (
-  <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow">
@@ -1382,25 +1383,25 @@ export default function CustomersPage() {
                   <dl className="space-y-3">
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Nombre completo</dt>
-                      <dd className="text-sm text-indigo-900">{selectedCustomer.fullName}</dd>
+                      <dd className="text-sm text-gray-900">{selectedCustomer.fullName}</dd>
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Email</dt>
-                      <dd className="text-sm text-indigo-900 flex items-center">
+                      <dd className="text-sm text-gray-900 flex items-center">
                         <Mail className="h-4 w-4 mr-1 text-gray-400" />
                         {selectedCustomer.email}
                       </dd>
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Teléfono</dt>
-                      <dd className="text-sm text-indigo-900 flex items-center">
+                      <dd className="text-sm text-gray-900 flex items-center">
                         <Phone className="h-4 w-4 mr-1 text-gray-400" />
                         {selectedCustomer.phone}
                       </dd>
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Documento</dt>
-                      <dd className="text-sm text-indigo-900">
+                      <dd className="text-sm text-gray-900">
                         {selectedCustomer.documentNumber} ({getDocumentTypeLabel(selectedCustomer.documentType)})
                       </dd>
                     </div>
@@ -1416,7 +1417,7 @@ export default function CustomersPage() {
                     </div>
                     <div>
                       <dt className="text-sm font-medium text-gray-500">Creado</dt>
-                      <dd className="text-sm text-indigo-900">{formatDate(selectedCustomer.createdAt)}</dd>
+                      <dd className="text-sm text-gray-900">{formatDate(selectedCustomer.createdAt)}</dd>
                     </div>
                   </dl>
                 </div>
@@ -1432,7 +1433,7 @@ export default function CustomersPage() {
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex items-center">
                             {getAddressTypeIcon(address.type)}
-                            <span className="ml-2 text-sm font-medium text-indigo-900">
+                            <span className="ml-2 text-sm font-medium text-gray-900">
                               {getAddressTypeLabel(address.type)}
                             </span>
                             {address.isPrimary && (
@@ -1480,7 +1481,18 @@ export default function CustomersPage() {
         </div>
       )}
     </div>
-  </Suspense>
+  );
+}
 
+// Componente principal con Suspense boundary
+export default function CustomersPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <CustomersPageContent />
+    </Suspense>
   );
 }

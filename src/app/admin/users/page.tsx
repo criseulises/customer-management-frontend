@@ -1,3 +1,4 @@
+
 'use client';
 export const dynamic = 'force-dynamic';
 
@@ -55,7 +56,8 @@ interface UpdateCustomerRequest {
   addresses: Omit<Address, 'id' | 'active'>[];
 }
 
-export default function CustomersPage() {
+// Componente interno que usa useSearchParams
+function CustomersPageContent() {
   const [user, setUser] = useState<User | null>(null);
   const [customers, setCustomers] = useState<PaginatedResponse<Customer> | null>(null);
   const [loading, setLoading] = useState(true);
@@ -440,12 +442,9 @@ export default function CustomersPage() {
 
   if (!user) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
-      </Suspense>
-
     );
   }
 
@@ -1353,5 +1352,18 @@ export default function CustomersPage() {
         </div>
       )}
     </div>
+  );
+}
+
+// Componente principal con Suspense boundary
+export default function CustomersPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <CustomersPageContent />
+    </Suspense>
   );
 }
