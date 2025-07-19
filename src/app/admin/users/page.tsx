@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCurrentUser, User } from '@/lib/auth';
 import { customerService, Customer, PaginatedResponse, CreateCustomerRequest, Address } from '@/lib/customer-service';
@@ -439,9 +439,12 @@ export default function CustomersPage() {
 
   if (!user) {
     return (
+      <Suspense fallback={<div>Loading...</div>}>
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
+      </Suspense>
+
     );
   }
 

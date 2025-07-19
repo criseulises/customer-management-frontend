@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getCurrentUser, User } from '@/lib/auth';
 import { customerService, Customer, PaginatedResponse, CreateCustomerRequest, Address } from '@/lib/customer-service';
@@ -499,6 +499,7 @@ export default function CustomersPage() {
   }
 
   return (
+  <Suspense fallback={<div>Loading...</div>}>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow">
@@ -1478,5 +1479,7 @@ export default function CustomersPage() {
         </div>
       )}
     </div>
+  </Suspense>
+
   );
 }
